@@ -5,7 +5,7 @@ class System:
         self.__root = Directory('')
         self.__current_node = self.__root
 
-    def __iterate_path(self, path, is_only_folder = 0):
+    def __iterate_path(self, path, type = None):
         current = (self.__root if path[0] == '/' else self.__current_node)
         path_list = list(path.split('/'))
         for name in path_list:
@@ -16,21 +16,22 @@ class System:
                 print('PATH ERROR')
                 return None
 
-        if is_only_folder and type(current) != Directory:
+        if type and type(current) != type:
             print('PATH ERROR')
             return None
+
         return current
 
     def current_path(self):
         return self.__current_node.path
 
     def mkdir(self, folder_name, path = ''):
-        node = self.__iterate_path(path, 1)
+        node = self.__iterate_path(path, Directory)
         if node:
             node.add_child(Directory(folder_name, node))
 
     def touch(self, file_name, path = ''):
-        node = self.__iterate_path(path, 1)
+        node = self.__iterate_path(path, Directory)
         if node:
             node.add_child(TextFile(file_name, node))
 
@@ -45,7 +46,7 @@ class System:
                 self.__current_node = self.__current_node.parent
             return
 
-        node = self.__iterate_path(path)
+        node = self.__iterate_path(path, Directory)
         if node:
             self.__current_node = node
 
@@ -53,57 +54,37 @@ class System:
         self.__current_node.ls()
 
     def nwfiletxt(self, path):
-        if not path.endwith('.txt'):
-            print('PATH ERROR')
-            return
-
-        node = self.__iterate_path(path)
+        node = self.__iterate_path(path, TextFile)
         if node:
             node.edit_file()
 
     def appendtxt(self, path):
-        if not path.endwith('.txt'):
-            print('PATH ERROR')
-            return
-
-        node = self.__iterate_path(path)
+        node = self.__iterate_path(path, TextFile)
         if node:
             node.append_file()
 
     def editline(self, path, line_index, text):
-        if not path.endwith('.txt'):
-            print('PATH ERROR')
-            return
-
-        node = self.__iterate_path(path)
+        node = self.__iterate_path(path, TextFile)
         if node:
             node.edit_line(line_index - 1, text)
 
     def deline(self, path, line_index):
-        if not path.endwith('.txt'):
-            print('PATH ERROR')
-            return
-
-        node = self.__iterate_path(path)
+        node = self.__iterate_path(path, TextFile)
         if node:
             node.delete_line(line_index - 1)
 
     def cat(self, path):
-        if not path.endwith('.txt'):
-            print('PATH ERROR')
-            return
-
-        node = self.__iterate_path(path)
+        node = self.__iterate_path(path, TextFile)
         if node:
             node.show()
 
     def mv(self, source_path, destination_path):
-        source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path)
+        source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path, Directory)
         if source_node and destination_node:
             source_node.move(destination_node)
 
     def cp(self, source_path, destination_path):
-        source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path)
+        source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path, Directory)
         if source_node and destination_node:
             source_node.copy(destination_node)
 
