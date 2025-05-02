@@ -19,6 +19,9 @@ class System:
         self.__current_node = current
         return True
 
+    def current_path(self):
+        return self.__current_node.path
+
     def mkdir(self, folder_name, path = ''):
         save_current = self.__current_node
 
