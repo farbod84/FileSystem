@@ -7,6 +7,6 @@ class UI:
 
     def __run(self):
         while 1:
-            command = input(self.__system.current_path() + ' ')
+            command = input(self.__system.current_path() + '$ ')
 
             pass
