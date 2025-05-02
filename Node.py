@@ -42,7 +42,7 @@ class Node:
 
     @property
     def path(self):
-        return (self.parent.path if self.parent is not None else '') + self.name
+        return (self.parent.path if self.parent is not None else '') + '/' + self.name
 
     def __str__(self):
         pass
@@ -74,13 +74,12 @@ class TextFile(Node):
     def append_file(self):
         self.__lines += self.__input_lines()
 
-    def edit_line(self, line_index: int):
+    def edit_line(self, line_index: int, text):
         if line_index >= len(self.__lines) or line_index < 0:
             print("LINE INDEX ERROR", '| index is out of range')
             return
 
-        line = input(">> ")
-        self.__lines[line_index] = line
+        self.__lines[line_index] = text
 
     def delete_line(self, line_index: int):
         if line_index >= len(self.__lines) or line_index < 0:
@@ -111,6 +110,12 @@ class Directory(Node):
         self.__sort_childs()
         for child in self.__childs:
             print(child)
+
+    def find(self, name):
+        for child in self.__childs:
+            if str(child) == name:
+                return child
+        return None
 
     def add_child(self, child):
         self.__childs.append(child)
