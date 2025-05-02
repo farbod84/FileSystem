@@ -1,4 +1,5 @@
 from UI import UI
 
 if __name__ == '__main__':
-    ui = UI()
+    username = input('Please enter your username: ')
+    ui = UI(username)

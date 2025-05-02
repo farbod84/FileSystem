@@ -2,7 +2,7 @@ from Node import TextFile, Directory
 
 class System:
     def __init__(self):
-        self.__root = Directory('')
+        self.__root = Directory('root')
         self.__current_node = self.__root
 
     def __iterate_path(self, path, type = None):
