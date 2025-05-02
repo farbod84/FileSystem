@@ -24,9 +24,9 @@ class UI:
                 case 'touch':
                     match len(command):
                         case 2:
-                            self.__system.touch(command[1])
+                            self.__system.touch(command[1][:-4])
                         case 3:
-                            self.__system.touch(command[2], command[1])
+                            self.__system.touch(command[2][:-4], command[1])
                         case _:
                             print('WRONG COMMAND')
 
@@ -100,7 +100,7 @@ class UI:
                         case _:
                             print('WRONG COMMAND')
 
-                case 'deline':
+                case 'ls':
                     match len(command):
                         case 1:
                             self.__system.ls()

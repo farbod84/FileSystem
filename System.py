@@ -5,9 +5,12 @@ class System:
         self.__root = Directory('root')
         self.__current_node = self.__root
 
-    def __iterate_path(self, path, type = None):
+    def __iterate_path(self, path, typ = None):
+        if path == '':
+            return self.__current_node
+
         current = (self.__root if path[0] == '/' else self.__current_node)
-        path_list = list(path.split('/'))
+        path_list = path.split('/')
         for name in path_list:
             next = current.find(name)
             if next:
@@ -16,7 +19,7 @@ class System:
                 print('PATH ERROR')
                 return None
 
-        if type and type(current) != type:
+        if typ and type(current) != typ:
             print('PATH ERROR')
             return None
 
