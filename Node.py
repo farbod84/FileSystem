@@ -18,6 +18,10 @@ class Node:
         self.__parent.remove_child(self)
         parent.add_child(self)
         self.__parent = parent
+    
+    def delete(self):
+        if self.__parent:
+            self.__parent.remove(str(self))
 
     @property
     def name(self):
@@ -101,7 +105,7 @@ class Directory(Node):
 
         self.__childs = list()
 
-        print(f'DIRECTORY "{self}" CREATED SUCCESSFULLY')
+        # print(f'DIRECTORY "{self}" CREATED SUCCESSFULLY')
 
     def __sort_childs(self):
         self.__childs = sorted(self.__childs, key = lambda child: (0 if type(child) == Directory else 1, child.name))
@@ -122,6 +126,11 @@ class Directory(Node):
 
     def remove_child(self, child):
         self.__childs.remove(child)
+
+    def remove(self, name):
+        child = self.find(name)
+        if child:
+            self.__childs.remove(child)
 
     def __str__(self):
         return self.name
