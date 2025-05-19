@@ -92,7 +92,7 @@ class System:
     def mv(self, source_path, destination_path):
         source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path, Directory)
         if source_node and destination_node:
-            if source_node.find(str(destination_node)):
+            if destination_node.find(str(source_node)):
                 print('NAME ERROR', '| This name already exist!')
             else:
                 source_node.move(destination_node)
@@ -100,7 +100,7 @@ class System:
     def cp(self, source_path, destination_path):
         source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path, Directory)
         if source_node and destination_node:
-            if source_node.find(str(destination_node)):
+            if destination_node.find(str(source_node)):
                 print('NAME ERROR', '| This name already exist!')
             else:
                 source_node.copy(destination_node)
