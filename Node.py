@@ -15,9 +15,17 @@ class Node:
         node.parent = parent
 
     def move(self, parent):
+        if parent.is_ancestor(self):
+            print('DIRECTORY ERROR')
+            return
+        
         self.__parent.remove_child(self)
         parent.add_child(self)
         self.__parent = parent
+    
+    def delete(self):
+        if self.__parent:
+            self.__parent.remove(str(self))
 
     def delete(self):
         if self.__parent:
@@ -105,11 +113,20 @@ class Directory(Node):
 
         self.__childs = list()
 
-        print(f'DIRECTORY "{self}" CREATED SUCCESSFULLY')
+        # print(f'DIRECTORY "{self}" CREATED SUCCESSFULLY')
 
     def __sort_childs(self):
         self.__childs = sorted(self.__childs, key = lambda child: (0 if type(child) == Directory else 1, child.name))
 
+    def is_ancestor(self, value):
+        node = self
+        while node is not None:
+            if node is value:
+                return True
+            node = node.parent
+        
+        return False
+    
     def ls(self):
         self.__sort_childs()
         for child in self.__childs:
@@ -126,6 +143,11 @@ class Directory(Node):
 
     def remove_child(self, child):
         self.__childs.remove(child)
+
+    def remove(self, name):
+        child = self.find(name)
+        if child:
+            self.__childs.remove(child)
 
     def __str__(self):
         return self.name

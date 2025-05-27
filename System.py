@@ -2,7 +2,7 @@ from Node import TextFile, Directory
 
 class System:
     def __init__(self):
-        self.__root = Directory('root')
+        self.__root = Directory('')
         self.__current_node = self.__root
 
     def __iterate_path(self, path, typ = None):
@@ -11,6 +11,10 @@ class System:
 
         current = (self.__root if path[0] == '/' else self.__current_node)
         path_list = path.split('/')
+        if path[0] == '/':
+            path_list = path_list[1:]
+        if path[-1] == '/':
+            path_list = path_list[:len(path_list) - 1]
         for name in path_list:
             next = current.find(name)
             if next:
@@ -30,12 +34,16 @@ class System:
 
     def mkdir(self, folder_name, path = ''):
         node = self.__iterate_path(path, Directory)
-        if node:
+        if node and node.find(folder_name):
+            print('DIRECTORY NAME ERROR', '| This name already exist!')
+        elif node:
             node.add_child(Directory(folder_name, node))
 
     def touch(self, file_name, path = ''):
         node = self.__iterate_path(path, Directory)
-        if node:
+        if node and node.find(file_name + '.txt'):
+            print('FILE NAME ERROR', '| This name already exist!')
+        elif node:
             node.add_child(TextFile(file_name, node))
 
     def rm(self, path):
@@ -84,14 +92,22 @@ class System:
     def mv(self, source_path, destination_path):
         source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path, Directory)
         if source_node and destination_node:
-            source_node.move(destination_node)
+            if destination_node.find(str(source_node)):
+                print('NAME ERROR', '| This name already exist!')
+            else:
+                source_node.move(destination_node)
 
     def cp(self, source_path, destination_path):
         source_node, destination_node = self.__iterate_path(source_path), self.__iterate_path(destination_path, Directory)
         if source_node and destination_node:
-            source_node.copy(destination_node)
+            if destination_node.find(str(source_node)):
+                print('NAME ERROR', '| This name already exist!')
+            else:
+                source_node.copy(destination_node)
 
     def rename(self, path, new_name):
         node = self.__iterate_path(path)
-        if node:
+        if node and node.parent and node.parent.find(new_name):
+            print('DIRECTORY NAME ERROR', '| This name already exist!')
+        elif node:
             node.name = new_name
