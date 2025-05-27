@@ -41,7 +41,7 @@ class System:
     def rm(self, path):
         node = self.__iterate_path(path)
         if node:
-            del node
+            node.delete()
 
     def cd(self, path):
         if path == '..':

@@ -61,14 +61,14 @@ class UI:
                 case 'editline':
                     match len(command):
                         case 4:
-                            self.__system.editline(command[1], command[2], command[3])
+                            self.__system.editline(command[1], int(command[2]), command[3])
                         case _:
                             print('WRONG COMMAND')
 
                 case 'deline':
                     match len(command):
                         case 3:
-                            self.__system.deline(command[1], command[2])
+                            self.__system.deline(command[1], int(command[2]))
                         case _:
                             print('WRONG COMMAND')
 

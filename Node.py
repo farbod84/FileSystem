@@ -19,6 +19,10 @@ class Node:
         parent.add_child(self)
         self.__parent = parent
 
+    def delete(self):
+        if self.__parent:
+            self.__parent.remove_child(self)
+
     @property
     def name(self):
         return self.__name
